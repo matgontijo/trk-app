@@ -10,7 +10,7 @@ export default async function Home() {
   const vendedores = await api.vendedores();
 
   const vgvData = data.imoveis.map((i) => ({
-    nome: i.nome,
+    imovel: i.nome,
     vgv: i.vgv,
     recebido: i.total_recebido,
     saldo: i.saldo_restante,

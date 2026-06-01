@@ -6,7 +6,6 @@ import {
 import { brl } from "@/lib/fmt";
 
 interface VGVChartProps {
-  data: { nome: string; vgv: number; recebido: number; saldo: number }[];
   data: { imovel: string; vgv: number; recebido: number; saldo: number }[];
 }
 
@@ -28,7 +27,7 @@ export function VGVBarChart({ data }: VGVChartProps) {
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e4e4e7" opacity={0.5} />
         <XAxis dataKey="imovel" tick={{ fontSize: 10, fill: "#71717a" }} axisLine={false} tickLine={false} />
         <YAxis tickFormatter={formatYAxis} tick={{ fontSize: 10, fill: "#71717a" }} axisLine={false} tickLine={false} />
-        <Tooltip formatter={(v: number) => brl(v)} cursor={{ fill: "#f4f4f5", opacity: 0.4 }} contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }} />
+        <Tooltip formatter={(v: any) => brl(v)} cursor={{ fill: "#f4f4f5", opacity: 0.4 }} contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }} />
         <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }} iconType="circle" />
         <Bar dataKey="vgv" name="VGV" fill="url(#colorVgv)" radius={[4, 4, 0, 0]} animationDuration={1500} />
         <Bar dataKey="recebido" name="Recebido" fill="url(#colorRecebido)" radius={[4, 4, 0, 0]} animationDuration={1500} />

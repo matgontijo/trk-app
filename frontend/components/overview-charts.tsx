@@ -3,7 +3,7 @@ import { VGVBarChart, CompradorPieChart, VendedorBarChart } from "./charts";
 import { SectionHead } from "./ui";
 
 interface Props {
-  vgvData: { nome: string; vgv: number; recebido: number; saldo: number }[];
+  vgvData: { imovel: string; vgv: number; recebido: number; saldo: number }[];
   vendedorData: { nome: string; recebido: number }[];
   ativus: number;
   gibraltar: number;
