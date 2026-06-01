@@ -72,6 +72,9 @@ def parse_imovel(imovel_id, url):
                             if val_cell is None:
                                 val_cell = 0
                             
+                            if desc.upper() == "SALDO RESTANTE" or desc.upper().startswith("RESUMO") or desc.upper().startswith("VENDEDOR") or desc.upper().startswith("TOTAL PAGO"):
+                                break
+                                
                             if desc.upper().startswith("VALOR ACORDADO"):
                                 try:
                                     valor_acordado = float(val_cell)
