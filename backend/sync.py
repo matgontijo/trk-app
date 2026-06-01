@@ -40,8 +40,22 @@ def parse_imovel(imovel_id, url):
 
     compradores = []
     
+    def normalize_vendedor(nome):
+        n = nome.upper()
+        if "RAFAEL" in n: return "Rafael Barbosa Roda Figueiredo"
+        if "CAROLINA" in n: return "Carolina Meirelles Ferreira"
+        if "TARIK" in n or "TÁRIK" in n: return "Tárik Faraj Vieira"
+        if "LUCIANA" in n: return "Luciana Carminati Zomer"
+        return nome.title()
+
+    def normalize_comprador(nome):
+        n = nome.upper()
+        if "ATIVUS" in n: return "ATIVUS Participações S.A."
+        if "GIBRALTAR" in n: return "Gibraltar Investimentos Imobiliários"
+        return nome.title()
+    
     for sheet in xl.sheet_names[1:]:
-        comprador_nome = sheet.strip()
+        comprador_nome = normalize_comprador(sheet.strip())
         df = xl.parse(sheet, header=None)
         
         vendedores = []
@@ -51,7 +65,7 @@ def parse_imovel(imovel_id, url):
                 if "PAGAMENTOS" in cell.upper() and "→" in cell:
                     parts = cell.split("→")
                     if len(parts) == 2:
-                        vend_nome = parts[1].strip()
+                        vend_nome = normalize_vendedor(parts[1].strip())
                         valor_acordado = 0
                         pagamentos = []
                         total_recebido = 0
