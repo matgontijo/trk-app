@@ -121,11 +121,17 @@ def parse_imovel(imovel_id, url):
                 "vendedores": vendedores
             })
             
+    prop_metadata = {
+        "q510": {"nome": "SCRS 510", "endereco": "SCRS 510, Bloco A", "bairro": "Asa Sul"},
+        "ql08": {"nome": "QL 08", "endereco": "SHIS QL 08, Casa 01", "bairro": "Lago Sul"},
+        "qi7": {"nome": "QI 7", "endereco": "SHIS QI 7, Conjunto 13, Nº 24", "bairro": "Lago Sul"}
+    }
+    
     return {
         "id": imovel_id,
-        "nome": nome.replace(' CS 01', '').replace(' – Asa Sul', '').strip(),
-        "endereco": "",
-        "bairro": "",
+        "nome": prop_metadata.get(imovel_id, {}).get("nome", nome),
+        "endereco": prop_metadata.get(imovel_id, {}).get("endereco", ""),
+        "bairro": prop_metadata.get(imovel_id, {}).get("bairro", ""),
         "vgv": vgv,
         "sinal": sinal,
         "saldo_restante": saldo_restante,
