@@ -155,3 +155,30 @@ def get_vendedores():
                     "saldo": v.saldo_restante,
                 })
     return list(vendedores.values())
+
+@app.get("/api/status")
+def get_status():
+    from datetime import datetime
+    import time
+    
+    # Check if we have data to mock a timestamp
+    last_upd = time.time() if IMOVEIS else 0
+    
+    configs = [
+        {"id": "qi7", "nome": "QI 7", "sheet": "16RsoF0-Q3XsW2QO65qI5f4L-LbZahEDOls1ammS4CEY"},
+        {"id": "q510", "nome": "SCRS 510", "sheet": "19Z3iRQ9kZ8WIDQveBIyI-QjbOEFFWmqTFeUKZTMjVHI"},
+        {"id": "ql08", "nome": "QL 08", "sheet": "1hYwhMkInKruMHxJqmBci43N8F6Rg4Kg6-7DKM1-ESLM"},
+    ]
+    
+    status_list = []
+    for c in configs:
+        status_list.append({
+            "id": c["id"],
+            "nome": c["nome"],
+            "sheet_id": c["sheet"],
+            "status": "Conectado" if last_upd > 0 else "Aguardando Sincronização",
+            "last_sync": datetime.fromtimestamp(last_upd).strftime("%d/%m/%Y %H:%M:%S") if last_upd > 0 else "Nunca"
+        })
+        
+    return {"connections": status_list, "cache_timestamp": last_upd}
+
