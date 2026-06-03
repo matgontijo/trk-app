@@ -61,26 +61,46 @@ class Consolidado(BaseModel):
 # ─────────────────────────────────────────────
 from sync import sync_all_imoveis
 import threading
+import time
 
 IMOVEIS: List[Imovel] = []
+LAST_SYNC_TIME = 0
+
+def auto_sync_worker():
+    global IMOVEIS, LAST_SYNC_TIME
+    while True:
+        time.sleep(60) # 1 minuto
+        try:
+            print("Auto-sync: Atualizando planilhas em background...")
+            raw_data = sync_all_imoveis()
+            IMOVEIS = [Imovel(**i) for i in raw_data]
+            LAST_SYNC_TIME = time.time()
+            print("Auto-sync: Sincronizado com sucesso.")
+        except Exception as e:
+            print(f"Auto-sync erro: {e}")
 
 @app.on_event("startup")
 def startup_event():
-    global IMOVEIS
+    global IMOVEIS, LAST_SYNC_TIME
     try:
         print("Baixando dados das planilhas do Google Sheets...")
         raw_data = sync_all_imoveis()
         IMOVEIS = [Imovel(**i) for i in raw_data]
+        LAST_SYNC_TIME = time.time()
         print("Planilhas sincronizadas com sucesso no startup!")
     except Exception as e:
         print(f"Erro ao sincronizar planilhas no startup: {e}")
+        
+    t = threading.Thread(target=auto_sync_worker, daemon=True)
+    t.start()
 
 @app.get("/api/sync")
 def sync_data():
-    global IMOVEIS
+    global IMOVEIS, LAST_SYNC_TIME
     try:
         raw_data = sync_all_imoveis()
         IMOVEIS = [Imovel(**i) for i in raw_data]
+        LAST_SYNC_TIME = time.time()
         return {"status": "ok", "message": "Dados atualizados das planilhas com sucesso!"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
@@ -159,10 +179,9 @@ def get_vendedores():
 @app.get("/api/status")
 def get_status():
     from datetime import datetime
-    import time
+    global LAST_SYNC_TIME
     
-    # Check if we have data to mock a timestamp
-    last_upd = time.time() if IMOVEIS else 0
+    last_upd = LAST_SYNC_TIME
     
     configs = [
         {"id": "qi7", "nome": "QI 7", "sheet": "16RsoF0-Q3XsW2QO65qI5f4L-LbZahEDOls1ammS4CEY"},

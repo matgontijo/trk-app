@@ -71,7 +71,7 @@ export default function ConexoesPage() {
               Google Sheets API
             </h2>
             <p className="text-xs text-zinc-500 mt-1">
-              Os dados são sincronizados automaticamente a cada 5 minutos.
+              Os dados são sincronizados automaticamente a cada 1 minuto.
             </p>
           </div>
           <button
