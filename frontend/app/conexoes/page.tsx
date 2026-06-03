@@ -19,7 +19,8 @@ export default function ConexoesPage() {
   const fetchStatus = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:8000/api/status");
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const res = await fetch(`${API_URL}/api/status`);
       const data = await res.json();
       setConnections(data.connections);
     } catch (error) {
@@ -32,7 +33,8 @@ export default function ConexoesPage() {
   const forceSync = async () => {
     setSyncing(true);
     try {
-      await fetch("http://localhost:8000/api/sync", { method: "POST" });
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      await fetch(`${API_URL}/api/sync`, { method: "POST" });
       await fetchStatus();
     } catch (error) {
       console.error("Erro ao sincronizar", error);
