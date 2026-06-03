@@ -144,6 +144,8 @@ def parse_imovel(imovel_id, url):
         "qi7": {"nome": "QI 7", "endereco": "SHIS QI 7, Conjunto 13, Nº 24", "bairro": "Lago Sul"}
     }
     
+    total_recebido_calc = sum(c["total_pago"] for c in compradores)
+    
     return {
         "id": imovel_id,
         "nome": prop_metadata.get(imovel_id, {}).get("nome", nome),
@@ -151,7 +153,7 @@ def parse_imovel(imovel_id, url):
         "bairro": prop_metadata.get(imovel_id, {}).get("bairro", ""),
         "vgv": vgv,
         "sinal": sinal,
-        "saldo_restante": saldo_restante,
-        "total_recebido": sum(c["total_pago"] for c in compradores),
+        "saldo_restante": vgv - total_recebido_calc,
+        "total_recebido": total_recebido_calc,
         "compradores": compradores
     }
