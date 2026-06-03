@@ -4,6 +4,8 @@ import { KpiCard, SectionHead, ProgressBar, AnimateIn } from "@/components/ui";
 import Link from "next/link";
 import { OverviewCharts } from "@/components/overview-charts";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const data = await api.consolidado();
   const pagamentos = await api.pagamentos();

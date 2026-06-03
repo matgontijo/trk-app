@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Link from "next/link";
 import { Home, Building2, Users, ReceiptText, Network, Menu } from "lucide-react";
+import { AutoRefresh } from "@/components/auto-refresh";
 
 export const metadata: Metadata = {
   title: "TRK Imóveis — Painel Executivo",
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
       </head>
       <body className="bg-zinc-50/50 min-h-screen pb-20 md:pb-0 overflow-x-hidden w-full" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+        <AutoRefresh />
         <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-zinc-200/50 px-5 md:px-10 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-baseline gap-2.5 active:scale-95 transition-transform">
             <span className="text-2xl font-light tracking-[0.15em] text-zinc-900" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
