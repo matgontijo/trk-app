@@ -16,8 +16,8 @@ export default function ConexoesPage() {
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
 
-  const fetchStatus = async () => {
-    setLoading(true);
+  const fetchStatus = async (silent = false) => {
+    if (!silent) setLoading(true);
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       const res = await fetch(`${API_URL}/api/status`);
@@ -26,7 +26,7 @@ export default function ConexoesPage() {
     } catch (error) {
       console.error("Erro ao buscar status", error);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
@@ -45,6 +45,11 @@ export default function ConexoesPage() {
 
   useEffect(() => {
     fetchStatus();
+    const intervalId = setInterval(() => {
+      fetchStatus(true);
+    }, 60000); // 1 minuto
+    
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
