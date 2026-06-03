@@ -19,8 +19,11 @@ def sync_all_imoveis():
             print(f"Error parsing {k}: {e}")
     return imoveis
 
+import time
+
 def parse_imovel(imovel_id, url):
-    resp = requests.get(url)
+    cache_buster_url = f"{url}&_={int(time.time())}"
+    resp = requests.get(cache_buster_url)
     xl = pd.ExcelFile(BytesIO(resp.content))
     summary_df = xl.parse(xl.sheet_names[0], header=None)
     
