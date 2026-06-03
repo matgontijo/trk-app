@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Network, Database, RefreshCcw, CheckCircle2, AlertCircle } from "lucide-react";
+import { Network, Database, RefreshCcw, CheckCircle2, AlertCircle, ExternalLink } from "lucide-react";
 
 interface Connection {
   id: string;
   nome: string;
   sheet_id: string;
+  sheet_url: string;
   status: string;
   last_sync: string;
 }
@@ -100,8 +101,15 @@ export default function ConexoesPage() {
                       </span>
                     )}
                   </div>
-                  <div className="text-[10px] text-zinc-400 font-mono">
-                    ID: {c.sheet_id}
+                  <div className="mt-1">
+                    <a 
+                      href={c.sheet_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center gap-1 text-[11px] text-blue-500 hover:text-blue-700 font-medium transition-colors"
+                    >
+                      Acessar Planilha no Google Sheets <ExternalLink className="w-3 h-3" />
+                    </a>
                   </div>
                 </div>
                 

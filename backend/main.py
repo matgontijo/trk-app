@@ -176,6 +176,7 @@ def get_status():
             "id": c["id"],
             "nome": c["nome"],
             "sheet_id": c["sheet"],
+            "sheet_url": f"https://docs.google.com/spreadsheets/d/{c['sheet']}/edit",
             "status": "Conectado" if last_upd > 0 else "Aguardando Sincronização",
             "last_sync": datetime.fromtimestamp(last_upd).strftime("%d/%m/%Y %H:%M:%S") if last_upd > 0 else "Nunca"
         })
