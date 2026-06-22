@@ -53,9 +53,9 @@ export default async function Home() {
 
       {/* KPIs */}
       <AnimateIn delay={0.2}>
-        <SectionHead title="Consolidado — 3 Imóveis" />
+        <SectionHead title={`Consolidado — ${data.imoveis.length} Imóveis`} />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 mb-10">
-          <KpiCard label="VGV Total" value={brl(data.vgv_total)} sub="3 imóveis" />
+          <KpiCard label="VGV Total" value={brl(data.vgv_total)} sub={`${data.imoveis.length} imóveis`} />
           <KpiCard label="Recebido" value={brl(data.total_recebido)} sub={`${pct(data.total_recebido, data.vgv_total)}% do VGV`} variant="green" />
           <KpiCard label="Saldo em Aberto" value={brl(data.saldo_total)} variant="red" />
           <KpiCard label="Imóveis" value={data.imoveis.length} sub="Lago Sul · Asa Sul" />

@@ -156,7 +156,13 @@ def get_todos_pagamentos():
                         "imovel_bairro": imovel.bairro,
                         **pgto.dict()
                     })
-    resultado.sort(key=lambda x: x["data"])
+    from datetime import datetime
+    def _data_key(s):
+        try:
+            return datetime.strptime(s, "%d/%m/%Y")
+        except (ValueError, TypeError):
+            return datetime.min
+    resultado.sort(key=lambda x: _data_key(x["data"]))
     return resultado
 
 @app.get("/api/vendedores")
@@ -187,6 +193,7 @@ def get_status():
         {"id": "qi7", "nome": "QI 7", "sheet": "16RsoF0-Q3XsW2QO65qI5f4L-LbZahEDOls1ammS4CEY"},
         {"id": "q510", "nome": "SCRS 510", "sheet": "19Z3iRQ9kZ8WIDQveBIyI-QjbOEFFWmqTFeUKZTMjVHI"},
         {"id": "ql08", "nome": "QL 08", "sheet": "1hYwhMkInKruMHxJqmBci43N8F6Rg4Kg6-7DKM1-ESLM"},
+        {"id": "scl403", "nome": "SCL 403", "sheet": "16Tu9JYtr-os8qc2WGTRAvrPd4642apQV_YShOg2-s1k"},
     ]
     
     status_list = []

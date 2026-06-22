@@ -19,6 +19,7 @@ export default async function ImovelPage(props: Props) {
     { id: "qi7", label: "QI 7" },
     { id: "q510", label: "SCRS 510" },
     { id: "ql08", label: "QL 08" },
+    { id: "scl403", label: "SCL 403" },
   ];
 
   return (
@@ -93,5 +94,5 @@ export default async function ImovelPage(props: Props) {
 }
 
 export async function generateStaticParams() {
-  return [{ id: "qi7" }, { id: "q510" }, { id: "ql08" }];
+  return [{ id: "qi7" }, { id: "q510" }, { id: "ql08" }, { id: "scl403" }];
 }

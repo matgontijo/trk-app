@@ -21,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     { href: "/imovel/qi7", label: "QI 7", icon: <Building2 className="w-4 h-4" /> },
     { href: "/imovel/q510", label: "SCRS 510", icon: <Building2 className="w-4 h-4" /> },
     { href: "/imovel/ql08", label: "QL 08", icon: <Building2 className="w-4 h-4" /> },
+    { href: "/imovel/scl403", label: "SCL 403", icon: <Building2 className="w-4 h-4" /> },
     { href: "/vendedores", label: "Vendedores", icon: <Users className="w-4 h-4" /> },
     { href: "/pagamentos", label: "Pagamentos", icon: <ReceiptText className="w-4 h-4" /> },
     { href: "/conexoes", label: "Conexões", icon: <Network className="w-4 h-4" /> },

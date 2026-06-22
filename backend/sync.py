@@ -1,12 +1,25 @@
 import pandas as pd
 import requests
+from datetime import datetime
 from io import BytesIO
 
 urls = {
     "q510": "https://docs.google.com/spreadsheets/d/19Z3iRQ9kZ8WIDQveBIyI-QjbOEFFWmqTFeUKZTMjVHI/export?format=xlsx",
     "ql08": "https://docs.google.com/spreadsheets/d/1hYwhMkInKruMHxJqmBci43N8F6Rg4Kg6-7DKM1-ESLM/export?format=xlsx",
-    "qi7": "https://docs.google.com/spreadsheets/d/16RsoF0-Q3XsW2QO65qI5f4L-LbZahEDOls1ammS4CEY/export?format=xlsx"
+    "qi7": "https://docs.google.com/spreadsheets/d/16RsoF0-Q3XsW2QO65qI5f4L-LbZahEDOls1ammS4CEY/export?format=xlsx",
+    "scl403": "https://docs.google.com/spreadsheets/d/16Tu9JYtr-os8qc2WGTRAvrPd4642apQV_YShOg2-s1k/export?format=xlsx"
 }
+
+
+def normalize_data(s):
+    """Normaliza qualquer formato de data para dd/mm/yyyy."""
+    s = str(s).strip()
+    for fmt in ("%d/%m/%Y", "%Y-%m-%d", "%d/%m/%y", "%Y/%m/%d"):
+        try:
+            return datetime.strptime(s, fmt).strftime("%d/%m/%Y")
+        except ValueError:
+            continue
+    return s
 
 def sync_all_imoveis():
     imoveis = []
@@ -104,11 +117,12 @@ def parse_imovel(imovel_id, url):
                                         val = abs(val)
                                         data_str = desc.split(" ")[0] if " " in desc else desc
                                         desc_str = " ".join(desc.split(" ")[1:]) if " " in desc else "Pagamento"
+                                        desc_str = desc_str.lstrip("- ").strip()
                                         if desc_str == "00:00:00" or desc_str.strip() == "":
                                             desc_str = "Pagamento"
-                                        
+
                                         pagamentos.append({
-                                            "data": data_str,
+                                            "data": normalize_data(data_str),
                                             "descricao": desc_str.strip(),
                                             "valor": val,
                                             "comprador": comprador_nome,
@@ -141,7 +155,8 @@ def parse_imovel(imovel_id, url):
     prop_metadata = {
         "q510": {"nome": "SCRS 510", "endereco": "SCRS 510, Bloco A", "bairro": "Asa Sul"},
         "ql08": {"nome": "QL 08", "endereco": "SHIS QL 08, Casa 01", "bairro": "Lago Sul"},
-        "qi7": {"nome": "QI 7", "endereco": "SHIS QI 7, Conjunto 13, Nº 24", "bairro": "Lago Sul"}
+        "qi7": {"nome": "QI 7", "endereco": "SHIS QI 7, Conjunto 13, Nº 24", "bairro": "Lago Sul"},
+        "scl403": {"nome": "SCL 403", "endereco": "SCL/SUL 403", "bairro": "Asa Sul"}
     }
     
     total_recebido_calc = sum(c["total_pago"] for c in compradores)
