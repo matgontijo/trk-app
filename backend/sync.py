@@ -36,7 +36,8 @@ import time
 
 def parse_imovel(imovel_id, url):
     cache_buster_url = f"{url}&_={int(time.time())}"
-    resp = requests.get(cache_buster_url)
+    resp = requests.get(cache_buster_url, timeout=(5, 30))
+    resp.raise_for_status()
     xl = pd.ExcelFile(BytesIO(resp.content))
     summary_df = xl.parse(xl.sheet_names[0], header=None)
     
