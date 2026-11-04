@@ -1,9 +1,17 @@
-import requests
+"""Manual connectivity probe. Importing this module never contacts Google Sheets."""
 import time
+import requests
 
-url = "https://docs.google.com/spreadsheets/d/19Z3iRQ9kZ8WIDQveBIyI-QjbOEFFWmqTFeUKZTMjVHI/export?format=xlsx"
-url_busted = f"{url}&_={int(time.time())}"
 
-resp = requests.get(url_busted)
-print(f"Status: {resp.status_code}")
-print(f"Content length: {len(resp.content)}")
+def main():
+    from sync import urls
+
+    url = urls["q510"]
+    response = requests.get(f"{url}&_={int(time.time())}", timeout=(5, 30))
+    response.raise_for_status()
+    print(f"Status: {response.status_code}")
+    print(f"Content length: {len(response.content)}")
+
+
+if __name__ == "__main__":
+    main()

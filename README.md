@@ -1,5 +1,9 @@
 # TRK Imóveis — Deploy no Railway
 
+Spreadsheet-backed property and payment dashboard.
+
+Technical evidence, validation and limitations: [portfolio notes](docs/PORTFOLIO.md).
+
 ## Estrutura do projeto
 ```
 trk-app/
